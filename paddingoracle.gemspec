@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["technion@lolware.net"]
 
   spec.summary       = %q{A padding oracle exploit kit.}
-  spec.description   = %q{Write a longer description or delete this line.}
-  spec.homepage      = "https://github/technion."
+  spec.description   = %q{A framework for creating custom padding oracle exploits.}
+  spec.homepage      = "https://github/technion/paddingoracle"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
