@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{A padding oracle exploit kit.}
   spec.description   = %q{A framework for creating custom padding oracle exploits.}
-  spec.homepage      = "https://github/technion/paddingoracle"
+  spec.homepage      = "https://github.com/technion/paddingoracle"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
