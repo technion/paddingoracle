@@ -7,8 +7,8 @@ class PaddingoracleTest < Minitest::Test
   end
 
   def test_it_does_something_useful
-    key = 'A' * 8
-    iv = 'B' * 8
+    key = Paddingoracle::TESTKEY
+    iv = Paddingoracle::TESTIV
 
     plaintext = "username here and over here"
     cipher = OpenSSL::Cipher.new("des-cbc")
@@ -16,6 +16,9 @@ class PaddingoracleTest < Minitest::Test
     cipher.key = key
     cipher.iv = iv
     encrypted = cipher.update(plaintext) + cipher.final
+
+    # Prepend the iv to reflect the real world
+    encrypted = iv + encrypted
 
     plain_cracked = Paddingoracle::recover_all_blocks(encrypted)
     assert_equal(plain_cracked, plaintext)

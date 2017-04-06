@@ -6,24 +6,22 @@ require 'uri'
 module Paddingoracle
   extend self
   Blocksize = 8
-  $iv = 'B' * 8
 
   def remove_pad(str)
-      raise "Incompatible remove_pad input" unless str.kind_of? String
-      last = str[-1,1]
-      raise "Invalid padding" unless last.ord > 0  && last.ord <= Blocksize
+    # Remove PKCS #7 padding
+    raise "Incompatible remove_pad input" unless str.kind_of? String
+    last = str[-1,1]
+    raise "Invalid padding" unless last.ord > 0  && last.ord <= Blocksize
 
-      padstr = last.chr * last.ord
+    padstr = last.chr * last.ord
 
-      padstr = Regexp.escape(padstr)
-      unless /#{padstr}$/.match(str)
-          raise "Invalid padding"
-      end
+    padstr = Regexp.escape(padstr)
+    unless /#{padstr}$/.match(str)
+        raise "Invalid padding"
+    end
 
-      return str[0..(str.length-last.ord)-1]
+    return str[0..(str.length-last.ord)-1]
   end
-
-
 
   def recover_block(enc, prevblock)
       #For a single CBC-encrypted block, utilise padding Oracle to 
@@ -33,7 +31,7 @@ module Paddingoracle
       end
       ret = "" 
       gen = ""
-      (0..Blocksize-1).to_a.reverse.each { |k| #For each byte in block
+      (0..Blocksize-1).to_a.reverse.each do |k| #For each byte in block
           (0..256).each { |n|
               if n == 256
                   #Should break before this point. n is only valid in 0-255
@@ -62,7 +60,7 @@ module Paddingoracle
           gen = ret.bytes.map.with_index{ |x, i|
               ((Blocksize-k+1).ord ^ x.ord ^ prevblock[k+i].ord).chr}.join
 
-      }
+      end
       return ret
   end  
 
@@ -71,13 +69,14 @@ module Paddingoracle
       #Strip PKCS#7 padding before returning
       raise "Invalid block" unless enc.length % Blocksize == 0
       ret = ""
-      prevblock = $iv
+      prevblock = enc[0..Blocksize-1]
+      enc = enc[Blocksize..enc.length-1]
       puts "we have #{enc.length} in length"
-      (0..enc.length-Blocksize).step(Blocksize) { |n|
+      (0..enc.length-Blocksize).step(Blocksize) do |n|
           block = enc[n..n+Blocksize-1]
           ret += recover_block(block, prevblock)
           prevblock = block
-      }
+      end
       ret = remove_pad(ret)
       return ret
   end

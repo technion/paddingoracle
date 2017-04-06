@@ -8,8 +8,8 @@ module Paddingoracle
     decipher = OpenSSL::Cipher.new("des-cbc")
     decipher.reset
     decipher.decrypt
-    decipher.key = 'A' * 8
-    decipher.iv = 'B' * 8
+    decipher.key = TESTKEY
+    decipher.iv = TESTIV
 
     # Will automatically throw an exception if decipher.final fails to
     # remove pad
