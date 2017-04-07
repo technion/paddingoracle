@@ -4,6 +4,9 @@ This is a Rubyframework for exploiting padding oracle vulnerabilities based on t
 
 https://github.com/mwielgoszewski/python-paddingoracle
 
+## Build status
+[![Build Status](https://travis-ci.org/technion/paddingoracle.svg?branch=master)](https://travis-ci.org/technion/paddingoracle)
+
 ## Usage
 
 
