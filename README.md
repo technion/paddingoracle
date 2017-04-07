@@ -27,9 +27,10 @@ end
 
 You can then run the attack like this;
 ```
+Blocksize = 8
 COOKIE = 'vulnerable encrypted data'
 bcookie = Base64.decode64(COOKIE)
-plain = Paddingoracle::recover_all_blocks(bcookie)
+plain = Paddingoracle::recover_all_blocks(bcookie, Blocksize)
 puts plain
 ```
 
