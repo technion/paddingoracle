@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PaddingoracleTest < Minitest::Test
-  Blocksize = 8
+  Blocksize = 8 # Test uses DES with eight bytes
   def test_that_it_has_a_version_number
     refute_nil ::Paddingoracle::VERSION
   end
@@ -20,7 +20,7 @@ class PaddingoracleTest < Minitest::Test
     # Prepend the iv to reflect the real world
     encrypted = iv + encrypted
 
-    plain_cracked = Paddingoracle::recover_all_blocks(encrypted)
+    plain_cracked = Paddingoracle::recover_all_blocks(encrypted, Blocksize)
     assert_equal(plain_cracked, plaintext)
 
   end
