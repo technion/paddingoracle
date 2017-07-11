@@ -41,6 +41,8 @@ puts plain
 
 This product was written to solve a specific problem - I'm happy to investigate bugs but this type of codebase is not suited to new features or "how to use" requests.
 
+If you are interested in this tool, we highly recommend the training at [PentesterLab](pentesterlab.com), which includes a vulnerable service relevant to this tool.
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
